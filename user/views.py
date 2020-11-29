@@ -34,7 +34,9 @@ from . import serializers
 from . import models
 from . import permis
 
-
+class CreateTokenView(ObtainAuthToken):
+    serializer_class=AuthSerializer
+    render_classes=[api_settings.DEFAULT_RENDERER_CLASSES]
 
 class ChangePasswordView(generics.UpdateAPIView):
     """
@@ -120,8 +122,3 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     filter_backends=(filters.SearchFilter,)
     search_fields=('username','email',)
 
-class LoginViewSet(viewsets.ViewSet):
-
-    serializer_class=AuthTokenSerializer
-    def create(self,request):
-        return ObtainAuthToken().post(request)
